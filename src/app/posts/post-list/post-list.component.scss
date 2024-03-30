@@ -1,0 +1,13 @@
+// host targets the element itself
+:host{
+  display: block;
+  margin-top: 1rem;
+}
+
+.info-text{
+  text-align: center;
+}
+
+button{
+  margin-right: auto;
+}

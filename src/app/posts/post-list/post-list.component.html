@@ -1,0 +1,18 @@
+<!-- set multi ="true" to open more than 1 expansion panel at a time -->
+<mat-accordion multi="true" *ngIf="postsVar">
+  <mat-expansion-panel *ngFor="let item of postsVar" #index >
+    <mat-expansion-panel-header >
+      {{item.title}}
+    </mat-expansion-panel-header>
+    <p>
+      {{item.content}}
+    </p>
+
+    <mat-action-row>
+      <button class="btn" mat-raised-button *ngIf="postsVar.length>0" (click)="deleteRow(index,'0ms','0ms')">Delete</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+
+</mat-accordion>
+
+<h1 class=" info-text body-1" *ngIf="postsVar.length<=0" >No posts added</h1>

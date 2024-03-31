@@ -9,7 +9,8 @@
     </p>
 
     <mat-action-row>
-      <button class="btn" mat-raised-button *ngIf="postsVar.length>0" (click)="deleteRow(index,'0ms','0ms')">Delete</button>
+      <button class="btn" mat-raised-button color="accent" (click)="deleteRow(index,'0ms','0ms')">Edit</button>
+      <button class="btn" mat-raised-button color="warn" (click)="deleteRow(index,'0ms','0ms')">Delete</button>
     </mat-action-row>
   </mat-expansion-panel>
 

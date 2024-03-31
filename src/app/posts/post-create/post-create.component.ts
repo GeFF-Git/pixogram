@@ -26,7 +26,7 @@ export class PostCreateComponent{
     title: '',
     content: ''
   }
-  @Output() postCreated = new EventEmitter();
+  // @Output() postCreated = new EventEmitter();
   // public keyword will automatically create a property in this component and store the incoming value in this property
   constructor(public postService : PostService){}
 
@@ -51,7 +51,10 @@ export class PostCreateComponent{
       //this.posts.content = this.enteredContent;
       console.log(this.posts.content);
 
-      this.postCreated.emit(this.posts);
+      this.postService.addPost(this.posts);
+      form.resetForm();
+
+      // this.postCreated.emit(this.posts);
   }
 
 

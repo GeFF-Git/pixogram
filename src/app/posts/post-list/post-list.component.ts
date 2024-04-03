@@ -40,6 +40,7 @@ export class PostListComponent implements OnInit,OnDestroy{
   // }
 
   ngOnInit(): void {
+    this.postService.getPosts();
       this.postsSubscription = this.postService.getPostsUpdateListener().subscribe({
         next:(data : PostModel[])=>{
           console.log(data);

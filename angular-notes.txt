@@ -1,0 +1,54 @@
+To avoid memory leaks when a component is not part of the DOM, we use subscription from rxjs.
+
+eg:
+
+on ngOnDestroy(){} we can unsubscribe to the subscribed observable or subject to avoid data leaks.
+
+Observable vs Subject:
+
+Observable is more passive
+
+used in http calls, click events, etc..
+
+can't be triggered from code
+
+
+Subject:
+
+More active
+
+can be triggered from code.
+
+Perfect event emitter.
+
+
+
+Section Resources
+Attached to this lecture, you find code snapshots for the course section. In addition, this links might be helpful as well:
+
+Learn everything about Angular: https://academind.com/learn/angular
+
+Angular Material Tutorial: https://academind.com/learn/angular/angular-material-a-thorough-guide/
+
+Angular Material Docs: https://material.angular.io/
+
+Reference vs Primitive Types in JS: https://academind.com/learn/javascript/reference-vs-primitive-values/
+
+RxJS Tutorial: https://academind.com/learn/javascript/understanding-rxjs/
+
+nodejs : server-side scripting, business logic.
+expressjs: framework building up on node to make node development easier. 
+           It is used as the bridge b/w angular and nodejs
+
+
+
+cmd to install nodemon(node monitor)
+npm run start:server to start and constatntly listen server.js
+It is defined in the scripts section of package.json file as "start:server": "nodemon server.js"
+
+http://localhost:3000/api/posts
+
+
+In post.service.ts file, we pass the copy of posts using subject and spreadoperator 
+to be accessible by other components and not the original posts object because, 
+if we send the original posts object, the data can be modified in other components which leads to multiple issues and confusions.

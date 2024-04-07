@@ -12,6 +12,15 @@ const app = express();
 //   next(); // The request will pass through the upcoming midleware's only if it sees the next() function
 // });
 
+app.use((req,res,next)=>{
+
+  res.setHeader('Access-Control-Allow-Origin','*');
+  res.setHeader('Access-Control-Allow-Header','Origin,X-Requested-With,Content-Type,Accept');
+  res.setHeader('Access-Control-Allow-Methods','GET,POST,PATCH,DELETE,OPTIONS,PUT');
+  next();
+
+});
+
 app.use('/api/posts',(req,res,next)=>{
   const posts = [
     {

@@ -37,8 +37,10 @@ Reference vs Primitive Types in JS: https://academind.com/learn/javascript/refer
 RxJS Tutorial: https://academind.com/learn/javascript/understanding-rxjs/
 
 nodejs : server-side scripting, business logic.
-expressjs: framework building up on node to make node development easier. 
+expressjs: framework building up on node to make node development easier.
            It is used as the bridge b/w angular and nodejs
+
+cmd to install express : npm install --save express
 
 
 
@@ -49,6 +51,12 @@ It is defined in the scripts section of package.json file as "start:server": "no
 http://localhost:3000/api/posts
 
 
-In post.service.ts file, we pass the copy of posts using subject and spreadoperator 
-to be accessible by other components and not the original posts object because, 
+In post.service.ts file, we pass the copy of posts using subject and spreadoperator
+to be accessible by other components and not the original posts object because,
 if we send the original posts object, the data can be modified in other components which leads to multiple issues and confusions.
+
+
+Use the below cmd which installs a package to extract data from the request and pass it to the
+req object present in the express middleware
+
+npm install --save body-parser    # this is a node-express middleware

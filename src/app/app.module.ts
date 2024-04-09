@@ -13,7 +13,7 @@ import { HeaderComponent } from './header/header.component';
 import { PostListComponent } from './posts/post-list/post-list.component';
 import { MatExpansionModule } from '@angular/material/expansion'
 import {MatDialogModule,MatDialogActions} from '@angular/material/dialog';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http';
 // import { PostService } from './posts/post.service';
 
 @NgModule({

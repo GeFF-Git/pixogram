@@ -1,0 +1,10 @@
+git remote add origin gitRepoUrl
+
+
+# use this whenever git is initialized locally and you want to push it to github.
+
+
+$ git config --global user.name "John Doe"
+$ git config --global user.email johndoe@example.com
+
+use these cmds to setup config file when you use git for the first time in your machine.

@@ -52,7 +52,18 @@ export class PostService{
 
     // const postForm : PostModel = {title: post.title, content: post.content}
 
-    this.posts.push(post);
-    this.postsUpdated.next([...this.posts]);
+    this.httpClient.post<{message: string}>('http://localhost:3000/api/posts',post).subscribe({
+      next: (data) =>{
+        console.log(data.message);
+        this.posts.push(post);
+        this.postsUpdated.next([...this.posts]); // next() is similar to emit() method
+      },
+      error: (err) =>{
+        console.log(err);
+      }
+    });
+
+    // this.posts.push(post);
+    // this.postsUpdated.next([...this.posts]);
   }
 }

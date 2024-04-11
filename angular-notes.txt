@@ -60,3 +60,9 @@ Use the below cmd which installs a package to extract data from the request and 
 req object present in the express middleware
 
 npm install --save body-parser    # this is a node-express middleware
+
+# mongoose installation
+
+npm install --save mongoose -- Used to establish db connection
+
+install Mongodb shell to get the live updates of insert, update, delete.

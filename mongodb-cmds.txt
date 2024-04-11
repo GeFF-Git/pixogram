@@ -10,3 +10,5 @@ show collections/tables
 show databases/dbs
 
 use pixogram-db to set the current database whcih we want to work on.
+
+use db.posts.find() to query through the posts collection and retrieve data.

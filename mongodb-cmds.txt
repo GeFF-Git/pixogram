@@ -1,0 +1,12 @@
+Mongo shell installation and connection on windows
+
+Step1:  Install mongosh from https://cloud.mongodb.com/
+
+Step2: use the cmd mongosh "mongodb+srv://cluster0.gccedhs.mongodb.net/" --apiVersion 1 --username Geff29 to connect using command line.
+
+Mongosh cmds:
+
+show collections/tables
+show databases/dbs
+
+use pixogram-db to set the current database whcih we want to work on.

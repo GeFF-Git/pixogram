@@ -74,28 +74,33 @@ app.post('/api/posts',(req,res,next)=>{
   res.status(201).json({
     message: 'Post added successfully'
   })
-
 });
 
 app.get('/api/posts',(req,res,next)=>{
-  const posts = [
-    {
-      id: '1',
-      title: 'First post from ExpressJs',
-      content: 'Sleepless'
-    },
-    {
-      id: '2',
-      title: 'Second post from ExpressJs',
-      content: 'Nights'
-    }
-  ];
+  // const posts = [
+  //   {
+  //     id: '1',
+  //     title: 'First post from ExpressJs',
+  //     content: 'Sleepless'
+  //   },
+  //   {
+  //     id: '2',
+  //     title: 'Second post from ExpressJs',
+  //     content: 'Nights'
+  //   }
+  // ];
   // res.send('ExpressJs Activated');
   // res.json();
-  res.status(200).json({
-    message: "Posts fetched successfully",
-    posts: posts
-  })
+  Post.find().then(documents=>
+    res.status(200).json({
+      message: "Posts fetched successfully",
+      posts: documents
+    })
+  );
+  // res.status(200).json({
+  //   message: "Posts fetched successfully",
+  //   posts: posts
+  // })
 });
 
 module.exports = app;

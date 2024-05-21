@@ -57,17 +57,31 @@ export class PostListComponent implements OnInit,OnDestroy{
   // @Input() postsVar !: PostModel[]
 
 
-  deleteRow(index : any, enterAnimationDuration: string, exitAnimationDuration : string){
-    const val = this.postsVar.findIndex(p=>index==p);
+  deleteRow(index : any, post: PostModel, enterAnimationDuration: string, exitAnimationDuration : string){
+    const val = this.postsVar.findIndex(p=>p.id == post.id);
     // this.matDialog.open(DialogAnimationsExampleDialog,confirm(){
     //   width: '250px',
     //   enterAnimationDuration,
     //   exitAnimationDuration
     // })
+
     const a = confirm('Are you sure to delete')
     if (a) {
-      this.postsVar.splice(val);
+      this.postService.deletePost(index,post.id||'')     
+      .subscribe({
+        next:(resp)=>{
+          console.log(resp);
+          // this.postsVar.forEach(elem=>{
+          //   if (elem.id == post.id) {
+          //     // this.postsVar.filter(p=>p.id!=post.id)           
+          //   }
+          // })
+          this.postsVar.find(p=>p.id==post.id);
+        }
+      });
+      
     }
+    this.postsVar.splice(val);
   }
 }
 

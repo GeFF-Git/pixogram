@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { PostModel } from './post.model';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, of, Subject, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
@@ -80,4 +80,24 @@ export class PostService {
     // this.posts.push(post);
     // this.postsUpdated.next([...this.posts]);
   }
+
+  deletePost(id : any, post : string) : Observable<{message : string}>{
+    return this.httpClient.delete<{message: string}>(`http://localhost:3000/api/posts/${post}`)
+    // .subscribe({
+    //   next:(resp)=>{
+    //     console.log(resp);
+    //    }
+    // }); 
+  }
+
+  // deletePost(id : any, post : string){
+  //   this.httpClient.delete<{message: string}>(`http://localhost:3000/api/posts/${post}`)
+  //   .subscribe({
+  //     next:(resp)=>{
+  //       console.log(resp);
+  //       this.posts = this.posts.filter(p=>p.id!=post);
+  //       this.postsUpdated.next([...this.posts])
+  //      }
+  //   }); 
+  // }
 }

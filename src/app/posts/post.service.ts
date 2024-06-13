@@ -65,10 +65,11 @@ export class PostService {
     // const postForm : PostModel = {title: post.title, content: post.content}
 
     this.httpClient
-      .post<{ message: string }>('http://localhost:3000/api/posts', post)
+      .post<{ message: string, postId : string }>('http://localhost:3000/api/posts', post)
       .subscribe({
         next: (data) => {
           console.log(data.message);
+          post.id = data.postId
           this.posts.push(post);
           this.postsUpdated.next([...this.posts]); // next() is similar to emit() method
         },
@@ -82,7 +83,7 @@ export class PostService {
   }
 
   deletePost(id : any, post : string) : Observable<{message : string}>{
-    return this.httpClient.delete<{message: string}>(`http://localhost:3000/api/posts/${post}`)
+    return this.httpClient.delete<{message: string, postId : string}>(`http://localhost:3000/api/posts/${post}`)
     // .subscribe({
     //   next:(resp)=>{
     //     console.log(resp);

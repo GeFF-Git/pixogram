@@ -58,7 +58,7 @@ export class PostListComponent implements OnInit,OnDestroy{
 
 
   deleteRow(index : any, post: PostModel, enterAnimationDuration: string, exitAnimationDuration : string){
-    const val = this.postsVar.findIndex(p=>p.id == post.id);
+    // const val = this.postsVar.findIndex(p=>p.id == post.id);
     // this.matDialog.open(DialogAnimationsExampleDialog,confirm(){
     //   width: '250px',
     //   enterAnimationDuration,
@@ -76,12 +76,12 @@ export class PostListComponent implements OnInit,OnDestroy{
           //     // this.postsVar.filter(p=>p.id!=post.id)           
           //   }
           // })
-          this.postsVar.find(p=>p.id==post.id);
+          this.postsVar =  this.postsVar.filter(p => p.id != post.id)
         }
       });
       
     }
-    this.postsVar.splice(val);
+    // this.postsVar.splice(val);
   }
 }
 

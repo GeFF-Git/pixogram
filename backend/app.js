@@ -70,10 +70,13 @@ app.post('/api/posts',(req,res,next)=>{
     content: req.body.content
   })
   console.log(post);
-  post.save();
-  res.status(201).json({
-    message: 'Post added successfully'
-  })
+  post.save().then(resp=>{
+    console.log(resp);
+    res.status(201).json({
+      message: 'Post added successfully',
+      postId: resp._id
+    })
+  });
 });
 
 app.get('/api/posts',(req,res,next)=>{
@@ -113,7 +116,8 @@ app.delete('/api/posts/:post',(req,res,next)=>{
   .then(resp=>{
     console.log(resp);
     res.status(200).json({
-      message: "Post Deleted Successfully"
+      message: "Post Deleted Successfully",
+      postId : id
     });
   })
 

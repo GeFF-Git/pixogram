@@ -66,3 +66,7 @@ npm install --save body-parser    # this is a node-express middleware
 npm install --save mongoose -- Used to establish db connection
 
 install Mongodb shell to get the live updates of insert, update, delete.
+
+Kepp different route name for client side and server side. 
+When deployed if the both has same routes, the request will only be passed to server side
+routing and not client-side routing

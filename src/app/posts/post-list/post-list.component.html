@@ -9,7 +9,8 @@
     </p>
 
     <mat-action-row>
-      <button class="btn" mat-raised-button color="accent" (click)="deleteRow(index,item,'0ms','0ms')">Edit</button>
+      <!-- <button class="btn" mat-raised-button color="accent" (click)="editPost()"><a style="text-decoration: none; color: black;" [routerLink]="['/edit',item.id]">Edit</a></button> -->
+      <button class="btn" mat-raised-button color="accent" (click)="editPost(item.id)">Edit</button>
       <button class="btn" mat-raised-button color="warn" (click)="deleteRow(index,item,'0ms','0ms')">Delete</button>
     </mat-action-row>
   </mat-expansion-panel>

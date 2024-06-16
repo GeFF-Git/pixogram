@@ -8,6 +8,8 @@ import { map } from 'rxjs/operators';
 export class PostService {
   constructor(private httpClient: HttpClient) {}
   private posts: PostModel[] = [];
+  emptyPost : PostModel = {id: '', title: '', content: ''};
+  editPost !: PostModel;
   // private postObs : Observable<PostModel[]> = of([]);
   // private post!:PostModel
 
@@ -56,6 +58,26 @@ export class PostService {
 
   getPostsUpdateListener() {
     return this.postsUpdated.asObservable(); // Other components can only listen(subscribe) and get values but can't emit(add) new values
+  }
+
+  getPost( postId : string){
+    // this.httpClient.get<{message: string, post : PostModel}>(`https://localhost:3000/api/posts/${postId}`);
+    return {...this.posts.find(p=> p.id == postId )}
+    // return {...this.emptyPost};
+  }
+
+  updatePost(post : PostModel,id :string){
+    const locPost  = {id: post.id, title: post.title, content: post.content};
+    // const id = post.id;
+    this.httpClient.put(`http://localhost:3000/api/posts/${id}`,locPost)
+    .subscribe({
+      next:(resp)=>{
+        console.log(resp);        
+      },
+      error:(err)=>{
+        console.log(err);        
+      }
+    });
   }
 
   addPost(post: PostModel) {

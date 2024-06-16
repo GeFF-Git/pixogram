@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { PostModel } from './posts/post.model'
+import { RouterOutlet } from '@angular/router';
+// RouterOutlet
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

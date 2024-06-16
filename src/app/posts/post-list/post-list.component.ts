@@ -4,7 +4,8 @@ import { MatDialog,MatDialogRef,MatDialogActions,MatDialogClose,MatDialogTitle,M
 import { MatButtonModule } from '@angular/material/button'
 import {MatDialogModule} from '@angular/material/dialog';
 import { PostService } from "../post.service";
-import { Subscription } from 'rxjs'
+import { Subscription } from 'rxjs';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-post-list',
@@ -17,7 +18,7 @@ export class PostListComponent implements OnInit,OnDestroy{
   // { title: 'First post', content: 'Godzilla x Kong' },
   // { title: 'Second post', content: 'Godzilla vs Kong' },
   // { title: 'Third post', content: 'Kong: skull island' }
-  constructor(public matDialog : MatDialog, public postService : PostService){}
+  constructor(public matDialog : MatDialog, public postService : PostService, private router : Router){}
   ngOnDestroy(): void {
     // throw new Error("Method not implemented.");
     this.postsSubscription.unsubscribe();
@@ -49,12 +50,16 @@ export class PostListComponent implements OnInit,OnDestroy{
         error:(err)=>{
           console.log(err);
         }
-      })
+      });
   }
 
 
 
   // @Input() postsVar !: PostModel[]
+
+  editPost(postId : string | undefined){
+    this.router.navigate(['/edit',postId])
+  }
 
 
   deleteRow(index : any, post: PostModel, enterAnimationDuration: string, exitAnimationDuration : string){
@@ -84,9 +89,6 @@ export class PostListComponent implements OnInit,OnDestroy{
     // this.postsVar.splice(val);
   }
 }
-
-
-
 @Component({
   selector: 'dialog-animations-example-dialog',
   templateUrl: 'dialog-animations-example-dialog.html',
@@ -95,6 +97,6 @@ export class PostListComponent implements OnInit,OnDestroy{
 })
 export class DialogAnimationsExampleDialog {
   constructor(public dialogRef: MatDialogRef<DialogAnimationsExampleDialog>) {}
-  @Output() bool : boolean = false
+  @Output() bool : boolean = false;
 
 }

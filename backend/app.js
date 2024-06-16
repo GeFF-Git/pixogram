@@ -106,6 +106,19 @@ app.get('/api/posts',(req,res,next)=>{
   // })
 });
 
+app.put('/api/posts/:id',(req,res,next)=>{
+  const post = new Post({
+    _id : req.params.id,
+    title: req.body.title,
+    content: req.body.content
+  });
+  Post.updateOne({_id: req.params.id},post)
+  .then(resp=>{
+    console.log(resp);
+    res.status(200).json({message: "update successful"})
+  });
+});
+
 app.delete('/api/posts/:post',(req,res,next)=>{
   // console.log(req);
   const id  = req.params.post;
@@ -123,6 +136,5 @@ app.delete('/api/posts/:post',(req,res,next)=>{
 
 
 })
-
 
 module.exports = app;

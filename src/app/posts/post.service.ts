@@ -3,10 +3,11 @@ import { PostModel } from './post.model';
 import { Observable, of, Subject, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { Route, Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class PostService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private router : Router) {}
   private posts: PostModel[] = [];
   emptyPost : PostModel = {id: '', title: '', content: ''};
   editPost !: PostModel;
@@ -62,8 +63,9 @@ export class PostService {
 
   getPost( postId : string){
     // this.httpClient.get<{message: string, post : PostModel}>(`https://localhost:3000/api/posts/${postId}`);
-    return {...this.posts.find(p=> p.id == postId )}
+    // return {...this.posts.find(p=> p.id == postId )}
     // return {...this.emptyPost};
+    return this.httpClient.get<{id: string, title: string, content: string}>(`http://localhost:3000/api/posts/${postId}`);
   }
 
   updatePost(post : PostModel,id :string){
@@ -72,7 +74,13 @@ export class PostService {
     this.httpClient.put(`http://localhost:3000/api/posts/${id}`,locPost)
     .subscribe({
       next:(resp)=>{
-        console.log(resp);        
+        console.log(resp);      
+        const updatedPosts = [...this.posts];
+        const oldPostIndex = updatedPosts.findIndex(p=> p.id === id); 
+        updatedPosts[oldPostIndex] = locPost;
+        this.posts = updatedPosts;
+        this.postsUpdated.next([...this.posts]); 
+        this.router.navigate(['../']);
       },
       error:(err)=>{
         console.log(err);        
@@ -94,6 +102,7 @@ export class PostService {
           post.id = data.postId
           this.posts.push(post);
           this.postsUpdated.next([...this.posts]); // next() is similar to emit() method
+          this.router.navigate(['../']);
         },
         error: (err) => {
           console.log(err);

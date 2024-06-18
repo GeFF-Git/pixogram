@@ -11,3 +11,19 @@ textarea{
 button{
   margin-right: auto;
 }
+
+// input[type="file"]{
+//   visibility: hidden;
+// }
+
+.image-preview{
+  width: 20rem;
+  // height: 20rem;
+  margin: 1rem 0;
+}
+
+.image-preview img{
+  height: 100%;
+  width: 100%;
+  margin: 0 5px;
+}

@@ -4,8 +4,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const mongoose = require('mongoose');
+const postRoutes = require('./routes/posts');
 
-const Post = require('./models/post')
 // While executing as a function, it returns the express app
 // We can add middlewares using the app variable
 const app = express();
@@ -21,15 +21,6 @@ const app = express();
 
 const uri = "mongodb+srv://Geff29:Geoffrey2001@cluster0.gccedhs.mongodb.net/pixogram-db?retryWrites=true&w=majority&appName=Cluster0";
 const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
-
-// mongoose.connect("mongodb+srv://Geff29:Geoffrey2001@cluster0.gccedhs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-// .then((resp)=>{
-//   console.log(resp);
-// })
-// .catch((err)=>{
-//   console.log(err);
-//   console.error(err);
-// })
 
 async function run() {
   try {
@@ -60,81 +51,8 @@ app.use((req,res,next)=>{
   res.setHeader('Access-Control-Allow-Headers','Origin,X-Requested-With,Content-Type,Accept');
   res.setHeader('Access-Control-Allow-Methods','GET,POST,PATCH,DELETE,OPTIONS,PUT');
   next();
-
 });
 
-app.post('/api/posts',(req,res,next)=>{
-  // const post = req.body;
-  const post = new Post({
-    title: req.body.title,
-    content: req.body.content
-  })
-  console.log(post);
-  post.save().then(resp=>{
-    console.log(resp);
-    res.status(201).json({
-      message: 'Post added successfully',
-      postId: resp._id
-    })
-  });
-});
-
-app.get('/api/posts',(req,res,next)=>{
-  // const posts = [
-  //   {
-  //     id: '1',
-  //     title: 'First post from ExpressJs',
-  //     content: 'Sleepless'
-  //   },
-  //   {
-  //     id: '2',
-  //     title: 'Second post from ExpressJs',
-  //     content: 'Nights'
-  //   }
-  // ];
-  // res.send('ExpressJs Activated');
-  // res.json();
-  Post.find().then(documents=>
-    res.status(200).json({
-      message: "Posts fetched successfully",
-      posts: documents
-    })
-  );
-  // res.status(200).json({
-  //   message: "Posts fetched successfully",
-  //   posts: posts
-  // })
-});
-
-app.put('/api/posts/:id',(req,res,next)=>{
-  const post = new Post({
-    _id : req.params.id,
-    title: req.body.title,
-    content: req.body.content
-  });
-  Post.updateOne({_id: req.params.id},post)
-  .then(resp=>{
-    console.log(resp);
-    res.status(200).json({message: "update successful"})
-  });
-});
-
-app.delete('/api/posts/:post',(req,res,next)=>{
-  // console.log(req);
-  const id  = req.params.post;
-  console.log(id);
-  Post.deleteOne({
-    _id: id
-  })
-  .then(resp=>{
-    console.log(resp);
-    res.status(200).json({
-      message: "Post Deleted Successfully",
-      postId : id
-    });
-  })
-
-
-})
+app.use("/api/posts",postRoutes);
 
 module.exports = app;

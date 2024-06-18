@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PostCreateComponent } from './posts/post-create/post-create.component';
@@ -15,6 +15,7 @@ import { MatExpansionModule } from '@angular/material/expansion'
 import {MatDialogModule,MatDialogActions} from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MatProgressSpinnerModule  } from '@angular/material/progress-spinner';
 // import { PostService } from './posts/post.service';
 
 @NgModule({
@@ -36,7 +37,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatExpansionModule,
     MatDialogModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    MatProgressSpinnerModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

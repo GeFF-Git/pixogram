@@ -1,6 +1,9 @@
 <!-- <textarea rows="10" #postInput [value]="dispVar"></textarea> -->
 <mat-card>
-  <form (submit)="onAddPost(postForm)" #postForm="ngForm">  <!-- add ngForm to access the form objects created and managed by angular-->
+  <mat-spinner class="m-auto" *ngIf="isLoading"></mat-spinner>
+  <!-- add ngForm to access the form objects created and managed by angular-->
+  <!-- HTML code for angular forms -->
+  <!-- <form (submit)="onSavePost(postForm)" #postForm="ngForm" *ngIf="!isLoading">  
     <mat-form-field>
       <input matInput type="text" name="title" [ngModel]="post?.title" placeholder="post title" required #title="ngModel">
       <mat-error *ngIf="title.invalid">Please enter a post title</mat-error>
@@ -9,9 +12,26 @@
       <textarea matInput rows="1" name="content" [ngModel]="post?.content" placeholder="post content" required #content="ngModel"></textarea>
       <mat-error *ngIf="content.invalid">Please enter post content</mat-error>
     </mat-form-field>
-    <button mat-raised-button color="accent" type="submit">Save post</button>
+    <button mat-raised-button color="accent" type="button" (click)="filePicker.click()">Add image</button>
+    <input type="file" #filePicker [hidden]="true">
+    <button mat-raised-button color="accent" type="submit"> Save post</button>
+  </form> -->
+  <form (submit)="onSavePost()" [formGroup]="form" *ngIf="!isLoading">  
+    <div class="image-preview" *ngIf="imageUrl!=='' && imageUrl && form.get('image')?.valid">
+      <img [src]="imageUrl" [alt]="form.value.title">
+    </div>
+    <mat-form-field>
+      <input matInput type="text" name="title" formControlName="title" placeholder="post title" >
+      <mat-error *ngIf="form.get('title')?.invalid">Please enter a post title</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea matInput rows="1" name="content" formControlName="content" placeholder="post content" ></textarea>
+      <mat-error *ngIf="form.get('content')?.invalid">Please enter post content</mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="accent" type="button" (click)="filePicker.click()">Add image</button>
+    <input type="file" #filePicker [hidden]="true" (change)="onFileUpload($event)">
+    <button class="ms-2" mat-raised-button color="accent" type="submit"> Save post</button>
   </form>
-
 </mat-card>
 <!-- <p>{{dispVar}}</p> -->
 

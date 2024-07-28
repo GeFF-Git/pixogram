@@ -1,10 +1,12 @@
 // import { Express } from "express";
+const path = require("path");
 const express = require('express');
 
 const bodyParser = require('body-parser');
 
 const mongoose = require('mongoose');
 const postRoutes = require('./routes/posts');
+const userRoutes = require('./routes/user');
 
 // While executing as a function, it returns the express app
 // We can add middlewares using the app variable
@@ -44,6 +46,7 @@ run()
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+app.use("/images",express.static(path.join("backend/images")));
 
 app.use((req,res,next)=>{
 
@@ -54,5 +57,6 @@ app.use((req,res,next)=>{
 });
 
 app.use("/api/posts",postRoutes);
+app.use("/api/user",userRoutes);
 
 module.exports = app;

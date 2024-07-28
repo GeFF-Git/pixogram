@@ -70,3 +70,21 @@ install Mongodb shell to get the live updates of insert, update, delete.
 Kepp different route name for client side and server side. 
 When deployed if the both has same routes, the request will only be passed to server side
 routing and not client-side routing
+
+Use elvis-operator(?) [ngModel] = post?.title
+It first checks whether the post is available or not. Only then loads the post
+
+mongoose validator
+npm install --save mongoose-unique-validator
+
+To encrypt passwords
+npm install --save bcrypt
+
+To use JWT tokens
+npm install --save jsonwebtoken
+
+multer is a middleware which is used to extract files/images in our api request.
+
+Middleware is just a function like regular routes which contain (req,res,next)
+next decides whether the request shoud be able to continue or not.(i.e) If next is not present,
+It doesn't allow the routes to go the succeeding requests.

@@ -2,6 +2,9 @@
 <mat-spinner class="m-auto" *ngIf="isLoading"></mat-spinner>
 <mat-accordion multi="true" *ngIf="postsVar && !isLoading">
   <mat-expansion-panel *ngFor="let item of postsVar" #index >
+    <div class="profile-img">
+      <img [src]="item.imagePath" [alt]="item.title">
+    </div>
     <mat-expansion-panel-header >
       {{item.title}}
     </mat-expansion-panel-header>
@@ -15,7 +18,6 @@
       <button class="btn" mat-raised-button color="warn" (click)="deleteRow(index,item,'0ms','0ms')">Delete</button>
     </mat-action-row>
   </mat-expansion-panel>
-
 </mat-accordion>
-
+<mat-paginator class="mt-2" [length]="totalPosts" [pageSize]="postsPerPage" [pageSizeOptions]="postPerOptions" (page)="onChangePage($event)" *ngIf="postsVar"></mat-paginator>
 <h1 class=" info-text body-1" *ngIf="postsVar.length<=0 && !isLoading" >No posts added</h1>

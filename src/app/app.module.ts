@@ -16,6 +16,9 @@ import {MatDialogModule,MatDialogActions} from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatProgressSpinnerModule  } from '@angular/material/progress-spinner';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { SignupComponent } from './auth/signup/signup/signup.component';
+import { LoginComponent } from './auth/login/login/login.component';
 // import { PostService } from './posts/post.service';
 
 @NgModule({
@@ -23,7 +26,9 @@ import { MatProgressSpinnerModule  } from '@angular/material/progress-spinner';
     AppComponent,
     PostCreateComponent,
     HeaderComponent,
-    PostListComponent
+    PostListComponent,
+    SignupComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +44,8 @@ import { MatProgressSpinnerModule  } from '@angular/material/progress-spinner';
     HttpClientModule,
     NgbModule,
     MatProgressSpinnerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

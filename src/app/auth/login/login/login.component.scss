@@ -1,0 +1,11 @@
+form{
+    margin-left: 40%;
+    margin-top: 150px;
+    display: flex;
+    flex-direction: column;
+    width: 20rem;
+}
+
+form mat-form-field button{
+    width: 90%;
+}

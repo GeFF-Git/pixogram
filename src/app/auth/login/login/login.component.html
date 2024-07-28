@@ -1,0 +1,21 @@
+<mat-spinner class="m-auto" *ngIf="isLoading"></mat-spinner>
+<form [formGroup]="form" (submit)="onLogin()" class="login-form" autocomplete="off" *ngIf="!isLoading">
+    <mat-form-field>
+        <mat-label>Enter your email</mat-label>
+        <input matInput formControlName="email" placeholder="example@gmail.com" autocomplete="new-password" spellcheck="false">
+        <!-- @if (form.get('email')?.hasError('required')) {
+            <mat-error>Email is a required field</mat-error>
+        }
+        @else if (form.get('email')?.hasError('email')) {
+            <mat-error>Enter a valid email</mat-error>
+        }
+        @else if(form.get('email')?.hasError('InvalidEmail')) {
+            <mat-error>Invalid email domain</mat-error>
+        } -->
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Enter your password</mat-label>
+        <input matInput formControlName="password" autocomplete="new-password">
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" class="mt-2">Login</button>
+</form>

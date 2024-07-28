@@ -33,7 +33,8 @@ export class PostCreateComponent implements OnInit{
   // and it exactly replacing the references(address) of the previous one
   postNew :PostModel={
     title: '',
-    content: ''
+    content: '',
+    imagePath: ''
   };
   // @Output() postCreated = new EventEmitter();
   // public keyword will automatically create a property in this component and store the incoming value in this property
@@ -56,7 +57,8 @@ export class PostCreateComponent implements OnInit{
               this.post = post;
               this.form.setValue({
                 'title': this.post.title,
-                'content': this.post.content
+                'content': this.post.content,
+                'image': this.post.imagePath
               });
               this.mode = true; 
               this.isLoading = false;
@@ -130,16 +132,17 @@ export class PostCreateComponent implements OnInit{
       this.isLoading = true;
       this.posts = {
         title: this.form.value.title,
-        content: this.form.value.content
+        content: this.form.value.content,
+        imagePath: ''
       }
       console.log(this.posts.title);
       console.log(this.posts.content);
       if (this.mode === false) {
-        this.postService.addPost(this.posts);
+        this.postService.addPost(this.posts,this.form.value.image);
         this.form.reset();
       }
       else{
-        this.postService.updatePost(this.posts,this.postId);
+        this.postService.updatePost(this.posts,this.postId,this.form.value.image);
       }
   }
 }

@@ -2,6 +2,7 @@ const express = require("express");
 const Post = require('../models/post');
 const multer = require('multer');
 const router = express.Router();
+const checkAuth = require("./../middleware/check-auth");
 
 const MIME_TYPE = {
     "image/png": "png",
@@ -12,64 +13,90 @@ const MIME_TYPE = {
 const storage = multer.diskStorage({
     destination: (req,file,cb)=>{
         const isValid = MIME_TYPE[file.mimetype];
-        const message = new Error("Invalid MIME type");
+        let message = new Error("Invalid MIME type");
         if (isValid) {
             message = null;
         }
         cb(message,"backend/images"); // Path is relative to server.js file therefore we have the path as "backend/images"
     },
     filename: (req,file,cb)=>{
-        const fileName = file.originalname().toLowerCase().replace(' ','-');
+        const fileName = file.originalname.toLowerCase().replace(' ','-');
         const extension = MIME_TYPE[file.mimetype];
         cb(null,fileName + '-' + Date.now() + '.' + extension);
     }    
 });
 
 // multer(storage).single("image") means that multer expects a single file with image property
-router.post('', multer(storage).single("image"), (req, res, next) => {
+router.post('', checkAuth , multer({storage: storage}).single("image"), (req, res, next) => {
     // const post = req.body;
+    const url = req.protocol + "://" + req.get("host");
     const post = new Post({
         title: req.body.title,
-        content: req.body.content
+        content: req.body.content,
+        imagePath: url + "/images/" + req.file.filename
     })
     console.log(post);
     post.save().then(resp => {
         console.log(resp);
         res.status(201).json({
             message: 'Post added successfully',
-            postId: resp._id
+            postData:{
+                ...resp,
+                id: resp._id
+            }
         })
     });
 });
 
-router.get('', (req, res, next) => {
-    // const posts = [
-    //   {
-    //     id: '1',
-    //     title: 'First post from ExpressJs',
-    //     content: 'Sleepless'
-    //   },
-    //   {
-    //     id: '2',
-    //     title: 'Second post from ExpressJs',
-    //     content: 'Nights'
-    //   }
-    // ];
-    // res.send('ExpressJs Activated');
-    // res.json();
-    Post.find().then(documents =>
-        res.status(200).json({
-            message: "Posts fetched successfully",
-            posts: documents
-        })
-    );
-    // res.status(200).json({
-    //   message: "Posts fetched successfully",
-    //   posts: posts
-    // })
-});
+// router.get('', (req, res, next) => {
 
-router.get('/:id', (req, res, next) => {
+//     const pageSize = +req.query.pagesize; // Adding (+) here to convert the string to a number. By default, params received from the url is a string
+//     const currentPage = +req.query.page;
+//     const postQuery = Post.find();
+//     console.log(pageSize);
+//     console.log(currentPage);
+//     if (pageSize && currentPage) {
+//         postQuery.
+//         skip(pageSize * (currentPage-1)).
+//         limit(pageSize)
+//     }
+
+//     postQuery.then(documents => {
+//         fetchedPosts = documents;
+//         return documents.count();
+//     })
+//     .then(count => {
+//         res.status(200).json({
+//             message: "Posts fetched successfully",
+//             posts: fetchedPosts,
+//             maxPosts: count
+//         })
+//     })
+
+// });
+router.get("", (req, res, next) => {
+    const pageSize = +req.query.pagesize;
+    const currentPage = +req.query.page;
+    const postQuery = Post.find();
+    let fetchedPosts;
+    if (pageSize && currentPage) {
+      postQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
+    }
+    postQuery
+      .then(documents => {
+        fetchedPosts = documents;
+        return Post.countDocuments();
+      })
+      .then(count => {
+        res.status(200).json({
+          message: "Posts fetched successfully!",
+          posts: fetchedPosts,
+          maxPosts: count
+        });
+      });
+  });
+
+router.get('/:id', multer({storage: storage}).single("image"), (req, res, next) => {
     Post.findById(req.params.id).then(resp => {
         if (resp) {
             console.log(resp);
@@ -81,12 +108,19 @@ router.get('/:id', (req, res, next) => {
     })
 })
 
-router.put('/:id', (req, res, next) => {
+router.put('/:id', checkAuth ,multer({storage: storage}).single("image"), (req, res, next) => {
+    let imagePath = req.body.imagePath;
+    if (req.file) {
+        const url = req.protocol + '://' + req.get("host");
+        imagePath = url + '/images/' + req.file.filename
+    }
     const post = new Post({
         _id: req.params.id,
         title: req.body.title,
-        content: req.body.content
+        content: req.body.content,
+        imagePath: imagePath
     });
+    console.log(post);
     Post.updateOne({ _id: req.params.id }, post)
         .then(resp => {
             console.log(resp);
@@ -94,7 +128,7 @@ router.put('/:id', (req, res, next) => {
         });
 });
 
-router.delete('/:post', (req, res, next) => {
+router.delete('/:post', checkAuth ,(req, res, next) => {
     // console.log(req);
     const id = req.params.post;
     console.log(id);

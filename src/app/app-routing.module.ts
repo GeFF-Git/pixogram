@@ -4,17 +4,20 @@ import { PostListComponent } from './posts/post-list/post-list.component';
 import { PostCreateComponent } from './posts/post-create/post-create.component';
 import { LoginComponent } from './auth/login/login/login.component';
 import { SignupComponent } from './auth/signup/signup/signup.component';
+import { canActivateTeam } from './auth/auth.guard';
 
 const routes: Routes = [
-  {path:'', component: LoginComponent},
+  {path:'', component: PostListComponent},
+  {path:'login', component: LoginComponent},
   {path:'signup', component: SignupComponent},
-  {path: 'create', component: PostCreateComponent},
-  {path: 'edit/:postId', component: PostCreateComponent},
+  {path: 'create', component: PostCreateComponent, canActivate: [canActivateTeam]},
+  {path: 'edit/:postId', component: PostCreateComponent, canActivate: [canActivateTeam]},
   {path:'posts', component: PostListComponent},
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: []
 })
 export class AppRoutingModule { }

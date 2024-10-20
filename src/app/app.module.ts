@@ -13,12 +13,13 @@ import { HeaderComponent } from './header/header.component';
 import { PostListComponent } from './posts/post-list/post-list.component';
 import { MatExpansionModule } from '@angular/material/expansion'
 import {MatDialogModule,MatDialogActions} from '@angular/material/dialog';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatProgressSpinnerModule  } from '@angular/material/progress-spinner';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { SignupComponent } from './auth/signup/signup/signup.component';
 import { LoginComponent } from './auth/login/login/login.component';
+import { AuthInterceptor } from './auth/auth.interceptor';
 // import { PostService } from './posts/post.service';
 
 @NgModule({
@@ -47,7 +48,7 @@ import { LoginComponent } from './auth/login/login/login.component';
     ReactiveFormsModule,
     MatPaginatorModule
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}], // Set multi to true, because if we have more than 1 interceptors, we don't want the existing interceptors to be overriden
   bootstrap: [AppComponent]
 })
 export class AppModule { }

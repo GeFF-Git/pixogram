@@ -7,6 +7,7 @@ import { PostService } from "../post.service";
 import { Subscription } from 'rxjs';
 import { Router } from "@angular/router";
 import { PageEvent } from "@angular/material/paginator";
+import { AuthService } from "src/app/auth/auth.service";
 
 @Component({
   selector: 'app-post-list',
@@ -20,7 +21,7 @@ export class PostListComponent implements OnInit,OnDestroy{
   // { title: 'Second post', content: 'Godzilla vs Kong' },
   // { title: 'Third post', content: 'Kong: skull island' }
   isLoading :boolean = false;
-  constructor(public matDialog : MatDialog, public postService : PostService, private router : Router){}
+  constructor(public matDialog : MatDialog, public postService : PostService, private router : Router, public authService : AuthService){}
   currentPage : number = 1;
   totalPosts : number = 0;
   postsPerPage : number = 2;

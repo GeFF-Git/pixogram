@@ -17,6 +17,6 @@
         <mat-label>Enter your password</mat-label>
         <input matInput formControlName="password" autocomplete="new-password">
     </mat-form-field>
-    <button mat-raised-button color="primary" type="submit" class="mt-2">Signup</button>
+    <button *ngIf="!isLoading" mat-raised-button color="primary" type="submit" class="mt-2">Signup</button>
 </form>
 

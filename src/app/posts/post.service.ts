@@ -34,17 +34,18 @@ export class PostService {
     const query = `?pagesize=${postsPerPage}&page=${currentPage}`;
 
     this.httpClient
-      .get<{ message: string; posts: {title: string, content: string, _id: string, imagePath: string}[], maxPosts: number }>(
+      .get<{ message: string; posts: {title: string, content: string, _id: string, imagePath: string, creator : string}[], maxPosts: number }>(
         `http://localhost:3000/api/posts${query}`
       )
       .pipe(map((postData)=>{
         return {posts:  postData.posts.map((post)=>{
           // const postReceived : PostModel = 
           return {
-            title: post.title,
-            content: post.content,
-            id: post._id,
-            imagePath: post.imagePath
+            title : post.title,
+            content : post.content,
+            id : post._id,
+            imagePath : post.imagePath,
+            creator : post.creator
           };
           // return postReceived;
         }), maxPosts: postData.maxPosts}

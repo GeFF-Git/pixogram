@@ -21,7 +21,7 @@ const app = express();
 // rmSYumNXh13QwzfB -pass
 // XLcfUSZnX4pwD8CM -password latest
 
-const uri = "mongodb+srv://Geff29:Geoffrey2001@cluster0.gccedhs.mongodb.net/pixogram-db?retryWrites=true&w=majority&appName=Cluster0";
+const uri = "mongodb+srv://Geff29:" + process.env.MONGO_ATLAS_PW + "@cluster0.gccedhs.mongodb.net/pixogram-db?retryWrites=true&w=majority&appName=Cluster0";
 const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
 
 async function run() {

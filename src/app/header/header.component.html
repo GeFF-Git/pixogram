@@ -2,8 +2,8 @@
   <span style="cursor: pointer;" routerLink="/">Pixogram</span>
   <span class="spacer"></span>
   <ul class="my-auto">
-    <li *ngIf="!(authService.getAuthStatusListener | async)"><a mat-button routerLink="/login" routerLinkActive="mat-primary">Login</a></li>
-    <li *ngIf="!(authService.getAuthStatusListener | async)"><a mat-button routerLink="/signup" routerLinkActive="mat-primary">Signup</a></li>
+    <li *ngIf="!(authService.getAuthStatusListener | async)"><a mat-button routerLink="auth/login" routerLinkActive="mat-primary">Login</a></li>
+    <li *ngIf="!(authService.getAuthStatusListener | async)"><a mat-button routerLink="auth/signup" routerLinkActive="mat-primary">Signup</a></li>
     <li *ngIf="authService.getAuthStatusListener | async"><a mat-button routerLink="/create" routerLinkActive="mat-primary">Create post</a></li>
     <li *ngIf="authService.getAuthStatusListener | async"><a mat-button routerLink="/posts" routerLinkActive="mat-primary">Posts Feed</a></li>
     <li *ngIf="authService.getAuthStatusListener | async"><button mat-button (click)="onLogout()">Logout</button></li>

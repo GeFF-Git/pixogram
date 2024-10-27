@@ -4,12 +4,14 @@ import { Observable, of, Subject, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Route, Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
+const BACKEND_URL = environment.apiUrl + "/posts";
 @Injectable({ providedIn: 'root' })
 export class PostService {
   constructor(private httpClient: HttpClient, private router : Router) {}
   private posts: PostModel[] = [];
-  emptyPost : PostModel = {id: '', title: '', content: '', imagePath: ''};
+  emptyPost : PostModel = {id: '', title: '', content: '', imagePath: '', creator: ''};
   editPost !: PostModel;
   // private postObs : Observable<PostModel[]> = of([]);
   // private post!:PostModel
@@ -35,7 +37,7 @@ export class PostService {
 
     this.httpClient
       .get<{ message: string; posts: {title: string, content: string, _id: string, imagePath: string, creator : string}[], maxPosts: number }>(
-        `http://localhost:3000/api/posts${query}`
+        `${BACKEND_URL}${query}`
       )
       .pipe(map((postData)=>{
         return {posts:  postData.posts.map((post)=>{
@@ -70,7 +72,7 @@ export class PostService {
     // this.httpClient.get<{message: string, post : PostModel}>(`https://localhost:3000/api/posts/${postId}`);
     // return {...this.posts.find(p=> p.id == postId )}
     // return {...this.emptyPost};
-    return this.httpClient.get<{id: string, title: string, content: string, imagePath: string}>(`http://localhost:3000/api/posts/${postId}`);
+    return this.httpClient.get<{id: string, title: string, content: string, imagePath: string, creator: string}>(`${BACKEND_URL}/${postId}`);
   }
 
   updatePost(post : PostModel,id :string, image : File | string){
@@ -83,10 +85,10 @@ export class PostService {
       postData.append("image",image,post.title);
     }
     else{
-      postData = {id: post.id, title: post.title, content: post.content, imagePath: post.imagePath};
+      postData = {id: post.id, title: post.title, content: post.content, imagePath: post.imagePath, creator: post.creator};
     }
     // const id = post.id;
-    this.httpClient.put(`http://localhost:3000/api/posts/${id}`,postData)
+    this.httpClient.put(`${BACKEND_URL}/${id}`,postData)
     .subscribe({
       next:(resp)=>{
         console.log(resp);      
@@ -96,7 +98,8 @@ export class PostService {
           id: post.id,
           title: post.title,
           content: post.content,
-          imagePath: post.imagePath
+          imagePath: post.imagePath,
+          creator: ''
         }
         // locPost.imagePath = resp.imagePath;
         // updatedPosts[oldPostIndex] = locPost;
@@ -122,7 +125,7 @@ export class PostService {
       postForm.append("image",image,image.name);
     }
     this.httpClient
-      .post<{ message: string, postData: PostModel }>('http://localhost:3000/api/posts', postForm)
+      .post<{ message: string, postData: PostModel }>(BACKEND_URL, postForm)
       .subscribe({
         next: (data) => {
           // console.log(data.message);
@@ -142,7 +145,7 @@ export class PostService {
   }
 
   deletePost(id : any, post : string) : Observable<{message : string}>{
-    return this.httpClient.delete<{message: string, postId : string}>(`http://localhost:3000/api/posts/${post}`)
+    return this.httpClient.delete<{message: string, postId : string}>(`${BACKEND_URL}/${post}`)
     // .subscribe({
     //   next:(resp)=>{
     //     console.log(resp);

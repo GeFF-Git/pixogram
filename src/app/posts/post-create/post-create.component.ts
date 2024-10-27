@@ -1,9 +1,11 @@
-import { Component,EventEmitter,OnInit,Output } from "@angular/core";
+import { Component,EventEmitter,OnDestroy,OnInit,Output } from "@angular/core";
 import { PostModel } from '../post.model'
 import { FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
 import { PostService } from "../post.service";
 import { ActivatedRoute, ParamMap } from "@angular/router";
 import { mimeType } from "./mime-type.validator";
+import { Subscription } from "rxjs";
+import { AuthService } from "src/app/auth/auth.service";
 @Component({
   selector: 'app-post-create',
   templateUrl: './post-create.component.html',
@@ -11,7 +13,7 @@ import { mimeType } from "./mime-type.validator";
 
 })
 
-export class PostCreateComponent implements OnInit{
+export class PostCreateComponent implements OnInit,OnDestroy{
 
   // dispVar : string = 'NO CONTENT'
   // newVal : string = 'two way binding'
@@ -26,6 +28,7 @@ export class PostCreateComponent implements OnInit{
   isLoading : boolean = false;
   form !: FormGroup;
   imageUrl !: string;
+  private authStatusSub !: Subscription;
 
   // Each time replaced the existing value in the app-component whenever
   // new post added if it is initialized outside the method
@@ -34,15 +37,16 @@ export class PostCreateComponent implements OnInit{
   postNew :PostModel={
     title: '',
     content: '',
-    imagePath: ''
+    imagePath: '',
+    creator: ''
   };
   // @Output() postCreated = new EventEmitter();
   // public keyword will automatically create a property in this component and store the incoming value in this property
-  constructor(public postService : PostService, public route : ActivatedRoute){}
+  constructor(public postService : PostService, public route : ActivatedRoute, private authService : AuthService){}
   ngOnInit(): void {
     this.form = new FormGroup({
-      'title': new FormControl(null,{validators:[Validators.required, Validators.minLength(3)],updateOn: 'blur'}),
-      'content': new FormControl(null,{validators:[Validators.required, Validators.minLength(3) ], updateOn: 'blur'}),
+      'title': new FormControl(null,{validators:[Validators.required, Validators.minLength(3)],updateOn: 'change'}),
+      'content': new FormControl(null,{validators:[Validators.required, Validators.minLength(3) ], updateOn: 'change'}),
       'image': new FormControl(null,{validators:[Validators.required], asyncValidators: [mimeType]})
     })
     this.route.paramMap.subscribe({
@@ -77,6 +81,13 @@ export class PostCreateComponent implements OnInit{
         console.log(err);        
       }
     });
+    this.authStatusSub = this.authService.getAuthStatusListener.subscribe(
+      {
+        next:(authStatus) => {
+          this.isLoading = false;
+        }
+      }
+    );
     }
 
   // method for angular forms
@@ -133,7 +144,8 @@ export class PostCreateComponent implements OnInit{
       this.posts = {
         title: this.form.value.title,
         content: this.form.value.content,
-        imagePath: ''
+        imagePath: this.form.value.imagePath,
+        creator: ''
       }
       console.log(this.posts.title);
       console.log(this.posts.content);
@@ -144,5 +156,9 @@ export class PostCreateComponent implements OnInit{
       else{
         this.postService.updatePost(this.posts,this.postId,this.form.value.image);
       }
+  }
+
+  ngOnDestroy(): void {
+    this.authStatusSub.unsubscribe();
   }
 }

@@ -26,6 +26,7 @@ export class PostListComponent implements OnInit,OnDestroy{
   totalPosts : number = 0;
   postsPerPage : number = 2;
   postPerOptions : number[] = [1,2,5,10];
+  userId !: string;
   ngOnDestroy(): void {
     // throw new Error("Method not implemented.");
     this.postsSubscription.unsubscribe();
@@ -36,11 +37,13 @@ export class PostListComponent implements OnInit,OnDestroy{
   ngOnInit(): void {
     this.isLoading = true;
     this.postService.getPosts(this.postsPerPage,this.currentPage);
+    this.userId = this.authService.getUserId;
       this.postsSubscription = this.postService.getPostsUpdateListener().subscribe({
         next:(data : {posts: PostModel[], postCount: number})=>{
           console.log(data);
           this.postsVar = data.posts;
           this.totalPosts = data.postCount;
+          this.userId = this.authService.getUserId;
           this.isLoading = false;
         },
         error:(err)=>{
@@ -94,6 +97,7 @@ export class PostListComponent implements OnInit,OnDestroy{
             },
             error:(err)=>{
               console.log(err);
+              this.isLoading = false;
             }
           })
         }

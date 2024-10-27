@@ -12,7 +12,7 @@
       {{item.content}}
     </p>
 
-    <mat-action-row *ngIf="authService.getAuthStatusListener | async">
+    <mat-action-row *ngIf="(authService.getAuthStatusListener | async) && userId === item.creator">
       <!-- <button class="btn" mat-raised-button color="accent" (click)="editPost()"><a style="text-decoration: none; color: black;" [routerLink]="['/edit',item.id]">Edit</a></button> -->
       <button class="btn" mat-raised-button color="accent" (click)="editPost(item.id)">Edit</button>
       <button class="btn" mat-raised-button color="warn" (click)="deleteRow(index,item,'0ms','0ms')">Delete</button>

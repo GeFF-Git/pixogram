@@ -7,12 +7,20 @@ import { SignupComponent } from './auth/signup/signup/signup.component';
 import { canActivateTeam } from './auth/auth.guard';
 
 const routes: Routes = [
-  {path:'', component: PostListComponent},
-  {path:'login', component: LoginComponent},
-  {path:'signup', component: SignupComponent},
+  {
+    path:'',
+    component: PostListComponent 
+    // loadChildren: () => import('./posts/posts.module').then(m => m.PostsModule)
+  },
+  {
+    path:'auth',
+    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
+  },
   {path: 'create', component: PostCreateComponent, canActivate: [canActivateTeam]},
   {path: 'edit/:postId', component: PostCreateComponent, canActivate: [canActivateTeam]},
-  {path:'posts', component: PostListComponent},
+  {
+    path:'posts', 
+    component: PostListComponent},
 ];
 
 @NgModule({

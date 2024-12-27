@@ -36,6 +36,6 @@ import { CommonModule } from '@angular/common';
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
   ], // Set multi to true, because if we have more than 1 interceptors, we don't want the existing interceptors to be overriden
   bootstrap: [AppComponent],
-  entryComponents: [ErrorComponent]
+  // entryComponents: [ErrorComponent]
 })
 export class AppModule { }
